@@ -1,0 +1,142 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Londrina Solid', cursive;
+}
+
+html {
+    body {
+        main {
+            padding: 8vh 10% 0 10%;
+            width: 100%;
+            background-color: $broken-white;
+            height: auto;
+            min-height: 95vh;
+            display: flex;
+            flex-direction: column;
+
+            .title-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            h1 {
+                color: #A5C9CA;
+                font-size: 42px;
+                font-weight: 600;
+                letter-spacing: 1px;
+                margin-bottom: 10px;
+            }
+
+            h2 {
+                color: $pastel;
+                font-size: 28px;
+                font-weight: 500;
+                margin-bottom: 10px;
+
+                &.trick-group-name {
+                    align-self: flex-start;
+                }
+            }
+
+            svg {
+                align-self: center;
+                height: 300px;
+            }
+
+            a {
+                color: $blue-grey;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+
+                &.link-back {
+                    span {
+                        color: $grey-light;
+                        margin-bottom: 10px;
+                        font-family: 'Roboto', serif;
+                        font-size: 14px;
+                        font-weight: 400;
+                    }
+                }
+            }
+
+            .trick-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+    
+                .trick-item {
+
+                    border-radius: $border-radius;
+                    background-color: white;
+                    display: flex;
+                    flex-direction: column;
+                    width: 30%;
+                    max-width: 350px;
+                    min-width: 200px;
+                    text-align: center;
+                    margin: 10px;
+                    height: 200px;
+                    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        
+                    .top, .bottom {
+                        width: 100%;
+                    }
+        
+                    .top {
+                        height: 40%;
+                        border-top-left-radius: $border-radius;
+                        border-top-right-radius: $border-radius;
+                        background-position: center;
+                        background-size: cover;
+                    }
+        
+                    .bottom {
+                        height: 60%;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        padding: 20px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: $mobile) {
+    html {
+        body {
+            main {
+                padding: 6vh 5% 0 5%;
+
+                .title-container {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+
+                .trick-container {
+                    .trick-item {
+                        width: 100%;
+                        max-width: unset;
+                        margin-right: 0;
+                        margin-left: 0;
+
+                        .bottom {
+                            a {
+                                button {
+                                    width: 100%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

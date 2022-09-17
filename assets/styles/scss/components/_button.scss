@@ -1,0 +1,65 @@
+button {
+    width: auto;
+    padding: 1% 40px;
+    border-radius: $border-radius;
+    outline: none;
+    background-color: $blue;
+    color: white;
+    height: auto;
+    min-height: 35px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 1rem;
+    font-weight: 400;
+    transition: 120ms;
+
+    &:hover {
+        transform: translate(0, 0.4px);
+        box-shadow: 6px 6px 12px $pastel;
+    }
+
+    &.green {
+        background-color: $pastel;
+
+        &:hover {
+            box-shadow: 10px 10px 6px $blue;
+        }
+    }
+
+    &.broken-white {
+        background-color: $broken-white;
+        color: $blue;
+
+        i {
+            color: $blue;
+        }
+
+        &:hover {
+            box-shadow: 10px 10px 6px $blue;
+        }
+    }
+
+    &.red {
+        background-color: $red;
+    }
+
+    &.small {
+        font-size: 0.8rem;
+        padding: 1% 15px;
+    }
+
+    &.no-hover {
+        &:hover {
+            box-shadow: none;
+            transform: none;
+        }
+    }
+}
+
+@media (max-width: $mobile) {
+    button {
+        min-height: 45px;
+    }
+}

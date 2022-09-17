@@ -1,20 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Home{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block main %}
+    <main class="index">
+        <section class="top">
+            <h1>Apprenez et partagez vos<br/>figures de snowbard !</h1>
+            <a href="#trick-container">
+                <button>
+                    <i class="bi bi-arrow-down"></i>
+                    Découvrir les tricks
+                </button>
+            </a>
+        </section>
+        {% if tricks|length > 0 %}
+            {% set previousSection = null %}
+            {% set sectionsLoaded = [] %}
+            {% for trick in tricks %}
+                {% set currentSection = trick.tripGroup.name %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+                {% if
+                    previousSection is not defined or
+                    currentSection != previousSection and
+                    currentSection not in sectionsLoaded %}
+                    {% set sectionsLoaded = sectionsLoaded|merge([currentSection]) %}
+                    <h2 class="trick-group-name">{{ currentSection }}</h2>
+                    <section class="trick-container" id="trick-container">
+                        {% for trick in trick.tripGroup.tricks %}
+                            <div class="trick-item big-height">
+                                {% set continue = true %}
+                                {% for trickMedia in trick.trickMedia %}
+                                    {% if trickMedia.isImage and continue %}
+                                        <div class="top" style="background-image: url({{ trickMedia.url }})"></div>
+                                        {% set continue = false %}
+                                    {% endif %}
+                                {% endfor %}
+                                <div class="bottom">
+                                    <h2>{{ trick.name }}</h2>
+                                    <a href="#">
+                                        <button>
+                                            <i class="bi bi-arrow-return-right"></i>
+                                            Voir le trick
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </section>
+                {% endif %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/audreyfcz/Documents/oc/snowtrick/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/audreyfcz/Documents/oc/snowtrick/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
-</div>
+                {% set previousSection = currentSection %}
+            {% endfor %}
+        {% endif %}
+    </main>
 {% endblock %}
