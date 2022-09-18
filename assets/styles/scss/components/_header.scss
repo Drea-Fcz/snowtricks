@@ -15,6 +15,7 @@ header {
             font-size: 30px;
             text-decoration: none;
             font-weight: 900;
+            font-family: 'Russo One', sans-serif;
         }
     }
 
@@ -30,9 +31,9 @@ header {
 
                 span {
                     color: $broken-white;
-                    font-size: 18px;
+                    font-size: 15px;
                     font-weight: 300;
-                    letter-spacing: 2px;
+                    letter-spacing: 0.5px;
                     transition: 150ms;
                 }
 
