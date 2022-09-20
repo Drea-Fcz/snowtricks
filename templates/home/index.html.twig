@@ -5,27 +5,31 @@
 {% block main %}
     <main class="index">
         <section class="top">
-            <h1>Apprenez et partagez vos<br/>figures de snowbard !</h1>
-            <a href="#trick-container">
+            <h1>
+                Welcome to SnowTricks
+            </h1>
+            <br/>
+            <h2>come and share with us </h2>
+            <a href="#groups">
                 <button>
+                    See More
                     <i class="bi bi-arrow-down"></i>
-                    Découvrir les tricks
                 </button>
             </a>
         </section>
         {% if tricks|length > 0 %}
-            {% set previousSection = null %}
-            {% set sectionsLoaded = [] %}
+            {% set previousGroup = null %}
+            {% set groupLoaded = [] %}
             {% for trick in tricks %}
-                {% set currentSection = trick.tripGroup.name %}
+                {% set currentGroup = trick.tripGroup.name %}
 
                 {% if
-                    previousSection is not defined or
-                    currentSection != previousSection and
-                    currentSection not in sectionsLoaded %}
-                    {% set sectionsLoaded = sectionsLoaded|merge([currentSection]) %}
-                    <h2 class="trick-group-name">{{ currentSection }}</h2>
-                    <section class="trick-container" id="trick-container">
+                    previousGroup is not defined or
+                    currentGroup != previousGroup and
+                    currentGroup not in groupLoaded %}
+                    {% set groupLoaded = groupLoaded|merge([currentGroup]) %}
+                    <h2 class="trick-group-name">{{ currentGroup }}</h2>
+                    <section class="trick-container" id="groups">
                         {% for trick in trick.tripGroup.tricks %}
                             <div class="trick-item big-height">
                                 {% set continue = true %}
@@ -39,8 +43,8 @@
                                     <h2>{{ trick.name }}</h2>
                                     <a href="#">
                                         <button>
-                                            <i class="bi bi-arrow-return-right"></i>
-                                            Voir le trick
+                                            Details
+                                            <i class="bi bi-arrow-right ms-2"></i>
                                         </button>
                                     </a>
                                 </div>
@@ -49,7 +53,7 @@
                     </section>
                 {% endif %}
 
-                {% set previousSection = currentSection %}
+                {% set previousGroup = currentGroup %}
             {% endfor %}
         {% endif %}
     </main>

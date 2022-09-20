@@ -9,14 +9,14 @@ main {
             width: 100%;
 
             &.top {
-                height: 95vh;
+                height: 80vh;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
 
-                h1 {
-                    font-size: 70px;
+                h1, h2 {
+
                     text-transform: uppercase;
                     color: $blue;
                     font-weight: 900;
@@ -25,6 +25,14 @@ main {
                     margin-bottom: 50px;
                     text-shadow: 7px 7px 1px $pastel !important;
                     font-family: 'Russo One', sans-serif;
+                }
+
+                h1 {
+                    font-size: 70px;
+                }
+
+                h2 {
+                    font-size: 50px;
                 }
         
                 button {
@@ -59,6 +67,9 @@ main {
                 &.top {
                     h1 {
                         font-size: 60px;
+                    }
+                    h2 {
+                        font-size: 30px;
                     }
                 }
             }
