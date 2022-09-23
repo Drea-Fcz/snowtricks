@@ -1,42 +1,63 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion{% endblock %}
 
-{% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+{% block main %}
+    <main class="login">
+        <div class="card white mt-3">
+            <h1>Connexion</h1>
+            <form method="POST">
+                {% if app.request.query.get('success') is defined and app.request.query.get('success') == true %}
+                    <div class="success">
+                        <div>
+                            Ton mot de passe a bien été mit à jour !<br/>
+                            Tu peux maintenant te connecter
+                        </div>
+                    </div>
+                {% endif %}
+                {% if app.user %}
+                    <div class="success">
+                        <div>
+                            You are already logged in as <em>{{ app.user.username }}</em>,<br/>
+                            <a href="{{ path('app_logout') }}">Logout</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <div>
+                        <div>
+                            <label for="inputEmail">Email</label>
+                            <input type="email" value="{{ last_username | default('') }}" name="email" id="inputEmail" class="form-control" autocomplete="email" placeholder="Ex: mail@snowtricks.com" required>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <label for="inputPassword">Password</label>
+                            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" placeholder="*******" required>
+                        </div>
+                    </div>
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}"
+                    >
+                    {% if error is defined and  error.messageKey is defined %}
+                        <div class="error">
+                            <div>
+                                {{ error.messageKey|trans(error.messageData, 'security') }}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="d-flex flex-row justify-content-between">
+                        <div class="btn-group d-flex flex-column">
+                            <a class="reset-password" href="{{ path('_get-reset-password') }}">
+                                Forgot password ?
+                            </a>
+                        </div>
+                        <button type="submit">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            Submit
+                        </button>
+                    </div>
+                {% endif %}
+            </form>
         </div>
-    {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+    </main>
 {% endblock %}

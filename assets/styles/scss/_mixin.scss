@@ -5,8 +5,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 
 @import 'variables';
+@import 'global';
+@import 'components/form';
+@import 'components/card';
 @import 'components/header';
 @import 'components/footer';
-@import 'global';
-@import 'templates/home';
 @import 'components/button';
+@import 'templates/home';
+@import 'templates/user';

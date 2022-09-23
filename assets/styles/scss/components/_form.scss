@@ -1,0 +1,184 @@
+form {
+    display: flex;
+    flex-direction: column;
+
+    .btn-toggle-container {
+        display: flex;
+        flex-direction: column;
+        
+        span {
+            font-family: 'Roboto';
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .btn-toggle {
+            width: 70px;
+            background: white;
+            border-radius: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            padding: 0 5px;
+            position: relative;
+            cursor: pointer;
+
+            .round {
+                margin-bottom: 0;
+                height: 20px;
+                width: 20px;
+                background-color: grey;
+                border-radius: 100%;
+                left: 5px;
+                position: absolute;
+                display: flex;
+                align-items: center;
+                transition: 150ms;
+
+                &.active {
+                    background-color: $pastel;
+                    left: 45px;
+                }
+
+                input {
+                    visibility: hidden;
+                }
+            }
+        }
+    }
+
+    div {
+        &.error {
+            background: $red-transparent;
+            display: flex;
+            align-items: center;
+            padding: 20px 10px;
+            margin-bottom: 20px;
+            border: 1px solid $red;
+            border-radius: $border-radius;
+
+            div {
+                margin-bottom: unset;
+                color: white;
+                font-family: Roboto;
+                font-weight: 400;
+                width: 100%;
+                display: block;
+            }
+        }
+
+        &.success {
+            background: $pastel-transparent;
+            display: flex;
+            align-items: center;
+            padding: 20px 10px;
+            margin-bottom: 20px;
+            border: 1px solid $pastel;
+            border-radius: $border-radius;
+
+            div {
+                margin-bottom: unset;
+                color: white;
+                font-family: Roboto;
+                font-weight: 400;
+                width: 100%;
+                display: block;
+            }
+        }
+
+        div {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+
+            label {
+                font-weight: 300;
+                color: $grey-dark;
+                margin-bottom: 5px;
+            }
+
+            p {
+                font-family: 'Roboto', sans-serif;
+                font-size: 13px;
+                font-weight: 400;
+                color: $grey;
+                margin-top: 5px;
+            }
+
+            ul {
+                background-color: $red-transparent;
+                border-radius: $border-radius;
+                border: 1px solid $red;
+                padding: 10px;
+                margin-bottom: 10px;
+
+                li {
+                    color: white;
+                    list-style: none;
+                    font-family: 'Roboto';
+                    font-size: 14px;
+                    font-weight: 400;
+                }
+            }
+        }
+    }
+
+    button {
+        align-self: flex-end;
+    }
+}
+
+input, textarea, select {
+    border-radius: $border-radius;
+    border: 3px solid transparent;
+    padding: 5px;
+    background: $broken-white;
+    color: $pastel;
+    font-size: 13px;
+    transition: 150ms;
+
+    &:focus {
+        outline: none;
+        border: none;
+        border-bottom: 3px solid $pastel;
+    }
+
+    &::placeholder {
+        font-weight: 300;
+        letter-spacing: 1.1px;
+    }
+
+    &.white {
+        background-color: white;
+    }
+}
+
+input, select {
+    height: 40px;
+}
+
+textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+@media (max-width: $mobile) {
+    form {
+        button {
+            width: 100%;
+        }
+
+        input, textarea, select {
+            height: 45px;
+            font-size: 14px;
+
+            &::placeholder {
+                font-size: 14px;
+            }
+        }
+
+        textarea {
+            height: 100px;
+        }
+    }
+}

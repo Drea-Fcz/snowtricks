@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -28,5 +29,24 @@ class UserController extends AbstractController
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    }
+
+    #[Route('/reset-password', name: '_get-reset-password', methods: ['GET'])]
+    public function resetPassword(): Response
+    {
+        return $this->render('security/reset-password.html.twig', [
+            'isSent' => false
+        ]);
+    }
+
+    #[Route('/reset-password', name: '_reset-password', methods: ['POST'])]
+    public function sendResetPassword(Request $request): Response
+    {
+        $mail = $request->get('email');
+        $this->service->resetPassword($mail);
+
+        return $this->render('security/reset-password.html.twig', [
+            'isSent' => true
+        ]);
     }
 }

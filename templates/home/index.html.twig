@@ -18,43 +18,28 @@
             </a>
         </section>
         {% if tricks|length > 0 %}
-            {% set previousGroup = null %}
-            {% set groupLoaded = [] %}
+                <section class="row" id="groups">
             {% for trick in tricks %}
-                {% set currentGroup = trick.tripGroup.name %}
-
-                {% if
-                    previousGroup is not defined or
-                    currentGroup != previousGroup and
-                    currentGroup not in groupLoaded %}
-                    {% set groupLoaded = groupLoaded|merge([currentGroup]) %}
-                    <h2 class="trick-group-name">{{ currentGroup }}</h2>
-                    <section class="trick-container" id="groups">
-                        {% for trick in trick.tripGroup.tricks %}
-                            <div class="trick-item big-height">
-                                {% set continue = true %}
-                                {% for trickMedia in trick.trickMedia %}
-                                    {% if trickMedia.isImage and continue %}
-                                        <div class="top" style="background-image: url({{ trickMedia.url }})"></div>
-                                        {% set continue = false %}
-                                    {% endif %}
-                                {% endfor %}
-                                <div class="bottom">
-                                    <h2>{{ trick.name }}</h2>
-                                    <a href="#">
-                                        <button>
-                                            Details
-                                            <i class="bi bi-arrow-right ms-2"></i>
-                                        </button>
-                                    </a>
-                                </div>
+                    <div class="trick-container col-md-3">
+                        <div class="trick-item big-height">
+                            {% for trickMedia in trick.trickMedia %}
+                                {% if trickMedia.isImage %}
+                                    <div class="top" style="background-image: url({{ trickMedia.url }})"></div>
+                                {% endif %}
+                            {% endfor %}
+                            <div class="bottom">
+                                <h2>{{ trick.name }}</h2>
+                                <a href="#">
+                                    <button>
+                                        Details
+                                        <i class="bi bi-arrow-right ms-2"></i>
+                                    </button>
+                                </a>
                             </div>
-                        {% endfor %}
-                    </section>
-                {% endif %}
-
-                {% set previousGroup = currentGroup %}
+                        </div>
+                    </div>
             {% endfor %}
+                </section>
         {% endif %}
     </main>
 {% endblock %}

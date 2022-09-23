@@ -17,23 +17,26 @@
                 <span>Tricks</span>
             </a>
         </li>
+        {% if app.user %}
         <li class="is-mobile">
-            <a href="#">
+            <a href="{{ path('app_logout') }}">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Logout</span>
             </a>
         </li>
+        {% else %}
         <li class="is-mobile">
-            <a href="#">
+            <a href="{{ path('app_login') }}">
                 <i class="bi bi-person-circle"></i>
-                <span>Login</span>
+                <span>Sign In</span>
             </a>
         </li>
         <li>
-            <a href="#">
-                <span>Register</span>
+            <a href="{{ path('app_register') }}">
+                <span>Sign Up</span>
             </a>
         </li>
+        {% endif %}
     </ul>
 </header>
 
