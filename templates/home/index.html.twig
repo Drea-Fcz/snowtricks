@@ -18,13 +18,15 @@
             </a>
         </section>
         {% if tricks|length > 0 %}
-                <section class="row" id="groups">
-            {% for trick in tricks %}
+            <section class="row" id="groups">
+                {% for trick in tricks %}
                     <div class="trick-container col-md-3">
                         <div class="trick-item big-height">
+                            {% set continue = true %}
                             {% for trickMedia in trick.trickMedia %}
-                                {% if trickMedia.isImage %}
+                                {% if trickMedia.isImage and continue %}
                                     <div class="top" style="background-image: url({{ trickMedia.url }})"></div>
+                                    {% set continue = false %}
                                 {% endif %}
                             {% endfor %}
                             <div class="bottom">
@@ -38,8 +40,8 @@
                             </div>
                         </div>
                     </div>
-            {% endfor %}
-                </section>
+                {% endfor %}
+            </section>
         {% endif %}
     </main>
 {% endblock %}

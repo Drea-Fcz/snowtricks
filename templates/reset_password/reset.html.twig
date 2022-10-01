@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reset your password{% endblock %}
+
+{% block main %}
+    <main class="login">
+        <div class="card white mt-3">
+            <h1>Reset your password</h1>
+
+    {{ form_start(resetForm) }}
+        {{ form_row(resetForm.plainPassword) }}
+            <a class="reset-password" href="{{ path('app_login') }}">
+                &#8592;
+                go back to login
+            </a>
+            <button type="submit">
+                <i class="bi bi-lock"></i>
+                Reset Password
+            </button>
+    {{ form_end(resetForm) }}
+        </div>
+    </main>
+{% endblock %}
