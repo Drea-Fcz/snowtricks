@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit{% endblock %}
+
+{% block main %}
+    <main class="new-trick mb-3">
+        <a href="#" class="link-back mb-3">
+            <span>&#8592; Go Back</span>
+        </a>
+        <div class="card white">
+            <div class="title-container">
+                <h1>Edit Trick</h1>
+            </div>
+            {{ include('trick/_form.html.twig', {'button_label': 'Update the Trick'}) }}
+        </div>
+    </main>
+{% endblock %}

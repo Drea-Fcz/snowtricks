@@ -38,6 +38,9 @@ class Trick
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: TrickMedia::class)]
     private Collection $trickMedia;
 
+    #[ORM\ManyToOne(inversedBy: 'tricks')]
+    private ?User $createdBy = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -153,6 +156,18 @@ class Trick
                 $trickMedium->setTrick(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }

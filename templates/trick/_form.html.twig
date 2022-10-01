@@ -1,0 +1,37 @@
+{{ form_start(form) }}
+<div>
+    <div>
+        {{ form_errors(form.name) }}
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}
+    </div>
+</div>
+<div>
+    <div>
+        {{ form_errors(form.description) }}
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description) }}
+    </div>
+</div>
+<div>
+    <div>
+        {{ form_label(form.tripGroup) }}
+        {{ form_widget(form.tripGroup) }}
+    </div>
+</div>
+
+
+{% for type, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="{{ type }}">
+            <div>
+                {{ message }}
+            </div>
+        </div>
+    {% endfor %}
+{% endfor %}
+<button class="btn save">
+    <i class="bi bi-plus"></i>
+    {{ button_label|default('Add a trick') }}
+</button>
+{{ form_end(form, {'render_rest': false}) }}
