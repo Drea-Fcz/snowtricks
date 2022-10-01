@@ -38,25 +38,4 @@ class UserController extends AbstractController
         throw new LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
-    #[Route('/reset-passwordss', name: '_get-reset-passwordss', methods: ['GET'])]
-    public function resetPassword(): Response
-    {
-        return $this->render('security/reset-password.html.twig', [
-            'isSent' => false
-        ]);
-    }
-
-    /**
-     * @throws TransportExceptionInterface
-     */
-    #[Route('/reset-passwordss', name: '_reset-passwordss', methods: ['POST'])]
-    public function sendResetPassword(Request $request): Response
-    {
-        $mail = $request->get('email');
-        $this->service->sendResetPassword($mail);
-
-        return $this->render('security/reset-password.html.twig', [
-            'isSent' => true
-        ]);
-    }
 }
