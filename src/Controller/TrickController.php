@@ -37,12 +37,18 @@ class TrickController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}', name: 'trick_show', methods: ['GET'])]
+    public function show(Trick $trick): Response
+    {
+        return $this->render('trick/index.html.twig', [
+            'trick' => $trick
+        ]);
+    }
+
     /**
      * @param Trick|null $trick
      * @param Request $request
      * @return Response
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     #[
         Route('/edit/{id?0}', name: '_trick.edit'),
@@ -65,9 +71,11 @@ class TrickController extends AbstractController
 
             $message = $new ? "You added a new trick with success" : "you edited a trick whit success";
             $trick->setCreatedBy($this->getUser());
+            $trick->setSlug();
 
             $this->_em->persist($trick);
             $this->_em->flush();
+
 
             if ($new) {
                 // create new event with AddPersonEvent
@@ -77,13 +85,34 @@ class TrickController extends AbstractController
             }
             $this->addFlash('Success', $message);
 
-            return $this->redirectToRoute('_trick');
+            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
         } else {
             return $this->render('trick/edit.html.twig', [
                 'trick' => $trick,
                 'form' => $form->createView()
             ]);
         }
+    }
+
+    #[
+        Route('/{id}', name: '_trick_delete', methods: ['POST']),
+        isGranted('IS_AUTHENTICATED')
+    ]
+
+    public function delete(Trick $trick): Response
+    {
+        if ($trick->getId() !== null) {
+            $this->_em->remove($trick);
+            $this->_em->flush();
+
+            $this->addFlash('success', "The trick was deleted");
+
+        } else {
+
+            $this->addFlash('error', "This trick doesn't  exist");
+        }
+
+        return  $this->redirectToRoute('index');
     }
 
 

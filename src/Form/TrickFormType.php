@@ -45,12 +45,12 @@ class TrickFormType extends AbstractType
                 'label' => 'Trick Group *',
                 'choices' => $trickChoices
             ])
-            ->add('trickMedia', CollectionType::class, [
+  /*          ->add('trickMedia', CollectionType::class, [
                 'label' => false,
                 'entry_type' => TrickMediaFormType::class,
                 'allow_add' => true,
                 'by_reference' => false
-            ])
+            ])*/
         ;
     }
 

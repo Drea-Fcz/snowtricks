@@ -8,9 +8,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[UniqueEntity(
+    fields: ['name', 'slug'],
+    message: 'This name is already used.',
+    errorPath: 'slug',
+)]
 class Trick
 {
     use TimeStampTrait;
@@ -21,9 +29,11 @@ class Trick
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
@@ -35,7 +45,7 @@ class Trick
     #[ORM\ManyToOne(inversedBy: 'tricks')]
     private ?TrickGroup $tripGroup = null;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: TrickMedia::class)]
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: TrickMedia::class, orphanRemoval: true)]
     private Collection $trickMedia;
 
     #[ORM\ManyToOne(inversedBy: 'tricks')]
@@ -81,9 +91,10 @@ class Trick
         return $this->slug;
     }
 
-    public function setSlug(string $slug): self
+    public function setSlug(): self
     {
-        $this->slug = $slug;
+        $slugger = new AsciiSlugger();
+        $this->slug = $slugger->slug($this->getName());
 
         return $this;
     }
