@@ -1,64 +1,47 @@
 main {
-    &.created {
-        svg {
-            margin: 75px 0;
-        }
-        
-        h2 {
-            align-self: center;
-            text-align: center;
-        }
+  &.created {
+    svg {
+      margin: 75px 0;
+    }
+
+    h2 {
+      align-self: center;
+      text-align: center;
+    }
+
+    a {
+      align-self: center;
+    }
+  }
+
+  &.login {
+    form {
+      .btn-group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
 
         a {
-            align-self: center;
+          color: $grey;
+          font-family: Roboto;
+          font-size: 14px;
         }
+      }
     }
-
-    &.login {
-        form {
-            .btn-group {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                margin-bottom: 10px;
-
-                a {
-                    color: $grey;
-                    font-family: Roboto;
-                    font-size: 14px;
-                }
-            }
-        }
-    }
-    &.trick-detail {
-        padding: 10%;
-
-        .trick-image {
-            background-color: $blue;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-top-right-radius: $border-radius;
-            border-top-left-radius: $border-radius;
-            height: 400px;
-            background-position: center;
-            background-size: cover;
-            position: relative;
-
-        }
-    }
+  }
 }
 
 @media (max-width: $mobile) {
-    main {
-        &.created {
-            svg {
-                max-width: 100%;
-            }
+  main {
+    &.created {
+      svg {
+        max-width: 100%;
+      }
 
-            a {
-                margin-top: 10px;
-            }
-        }
+      a {
+        margin-top: 10px;
+      }
     }
+  }
 }

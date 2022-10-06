@@ -19,20 +19,65 @@
         {{ form_widget(form.tripGroup) }}
     </div>
 </div>
+{{ form_widget(form._token) }}
+{% if trick.name and trick.id %}
+<label class="mt-2">Image</label>
+{% for i, child in form.children.trickMedia %}
+<div>
+    <div class="form-bnt">
+        {% if  child.vars.value.isImage %}
+            <div class="input-group url {{ child.vars.value.isImage ? 'is-active' : '' }}">
 
-
-{% for type, messages in app.flashes %}
-    {% for message in messages %}
-        <div class="{{ type }}">
-            <div>
-                {{ message }}
+                <div class="d-flex flex-row">
+                    <input type="url" id="url"
+                           class="form-group w-100 grey"
+                           name="trick[trickMedia][{{ i }}][url]"
+                           placeholder="Ex: https://img.redbull.com/images"
+                           value="{{ child.vars.value.url }}">
+                    {#
+                    https://www.shutterstock.com/image-illustration/no-picture-available-placeholder-thumbnail-icon-2179364083'
+                    #}
+                    <div class="input-group-append">
+                       <span class="input-group-text border-0 bg-transparent">
+                             <a href="#" onclick="return confirm('do you really want to remove this ?');">
+                             <i class="bi bi-x-circle"></i>
+                    </a>
+                       </span>
+                    </div>
+                </div>
             </div>
-        </div>
+        {% endif %}
+        {% if  child.vars.value.isImage == false %}
+            <div class="textarea {{ child.vars.value.isImage ? '' : 'is-active' }}">
+                <label for="embed">Video</label>
+                <textarea id="embed" name="trick[trickMedia][{{ i }}][embed]"
+                          placeholder='Ex: <iframe width="560" height="315" src="https://www.youtube.com/embed/monyw0mnLZg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'>
+                        {{ child.vars.value.embed }}
+                    </textarea>
+            </div>
+        {% endif %}
+    </div>
     {% endfor %}
-{% endfor %}
-<button class="btn save">
-    <i class="bi bi-plus"></i>
-    {{ button_label|default('Add a trick') }}
-</button>
-{{ form_row(form._token) }}
-{{ form_end(form, {'render_rest': false}) }}
+    {% endif %}
+    <button class="add-media small">
+        <i class="bi bi-plus"></i>
+        Add media
+    </button>
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="{{ type }}">
+                <div>
+                    {{ message }}
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    <button class="btn save">
+        <i class="bi bi-plus"></i>
+        {{ button_label|default('Add a trick') }}
+    </button>
+    {#
+    form end par default affiche en dessous la fin du formulaire
+        render_rest:
+    #}
+    {{ form_end(form, {'render_rest': false}) }}

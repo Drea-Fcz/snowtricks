@@ -25,7 +25,8 @@
                             {% set continue = true %}
                             {% for trickMedia in trick.trickMedia %}
                                 {% if trickMedia.isImage and continue %}
-                                    <div class="top" style="background-image: url({{ trickMedia.url }})"></div>
+                                    <div class="top" style="background-image: url({{ trickMedia.url }})">
+                                    </div>
                                     {% set continue = false %}
                                 {% endif %}
                             {% endfor %}

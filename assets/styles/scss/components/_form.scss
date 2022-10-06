@@ -2,10 +2,10 @@ form {
     display: flex;
     flex-direction: column;
 
-    .btn-toggle-container {
+    .form-btn {
         display: flex;
         flex-direction: column;
-        
+
         span {
             font-family: 'Roboto';
             font-size: 14px;
@@ -13,10 +13,10 @@ form {
         }
 
         .btn-toggle {
-            width: 70px;
-            background: white;
+            width: 50px;
+            background: rgba(232, 232, 232, 0.62);
             border-radius: 30px;
-            height: 30px;
+            height: 15px;
             display: flex;
             justify-content: center;
             padding: 0 5px;
@@ -29,15 +29,15 @@ form {
                 width: 20px;
                 background-color: grey;
                 border-radius: 100%;
-                left: 5px;
+                left: 3px;
                 position: absolute;
                 display: flex;
                 align-items: center;
                 transition: 150ms;
 
                 &.active {
-                    background-color: $pastel;
-                    left: 45px;
+                    background-color: $blue;
+                    left: 30px;
                 }
 
                 input {
@@ -89,7 +89,7 @@ form {
         div {
             display: flex;
             flex-direction: column;
-            margin-bottom: 20px;
+            margin-bottom: 8px;
 
             label {
                 font-weight: 300;

@@ -3,7 +3,7 @@ main {
     padding: 10%;
 
     .trick-image {
-      background-color: $blue;
+      background-color: rgba(232, 232, 232, 0.62);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -18,7 +18,7 @@ main {
         font-size: 52px;
         color: white;
         z-index: 1;
-        text-shadow: 0 0 21px #00000061;
+        text-shadow: 0 0 10px #00000061;
       }
 
       .filter {
@@ -60,9 +60,9 @@ main {
         }
 
         img, iframe, div {
-          height: 150px !important;
-          max-width: 200px !important;
-          margin-right: 10px !important;
+          height: 150px!important;
+          max-width: 200px!important;
+          margin-right: 10px!important;
         }
       }
 
@@ -78,7 +78,7 @@ main {
         text-align: justify;
       }
 
-      .info {
+      .info{
         width: 100%;
         display: flex;
         align-items: center;
@@ -168,8 +168,8 @@ main {
 
           img {
             width: 100%;
-            max-width: unset !important;
-            height: auto !important;
+            max-width: unset!important;
+            height: auto!important;
             margin-bottom: 20px;
 
             &:last-child {

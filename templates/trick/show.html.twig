@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ trick.name }}{% endblock %}
+
+{% block main %}
+    <main class="trick-detail">
+                {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="{{ type }}">
+                    <div>
+                        {{ message }}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <a href="{{ path('index') }}" class="link-back">
+            <span>&#8592; Got back to Home</span>
+        </a>
+        {% set continue = true %}
+        {% for trickMedia in trick.trickMedia %}
+            {% if trickMedia.isImage and continue %}
+                <div class="trick-image" style="background-image: url({{ trickMedia.url }})">
+                    <h1>{{ trick.name }}</h1>
+                    <div class="filter"></div>
+                    {% if app.user %}
+                        <div class="edit">
+                            <a href="{{ path('_trick.edit', {'slug': trick.slug}) }}">
+                                <button class="small green no-hover">
+                                    <i class="bi bi-pen"></i>
+                                </button>
+                            </a>
+                            <form method="post" action="{{ path('_trick_delete', {'id': trick.id}) }}"
+                                  onsubmit="return confirm('Do you really remove this?');"
+                            >
+                                <button class="small red no-hover">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+                {% set continue = false %}
+            {% endif %}
+        {% endfor %}
+        {% if trick.trickMedia|length == 0 and app.user %}
+            <div class="trick-image">
+                <h1>{{ trick.name }}</h1>
+                <div class="filter"></div>
+                <div class="edit">
+                    <a href="{{ path('_trick.edit') }}">
+                        <button class="small green no-hover">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </a>
+                    <form method="post" action="{{ path('_trick_delete', {'id': trick.id}) }}"
+                          onsubmit="return confirm('Do you really remove this?');"
+                    >
+                        <button class="small red no-hover">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+        <div class="description">
+            <div class="trick-media-list">
+                {% for trickMedia in trick.trickMedia %}
+                    {% if trickMedia.isImage %}
+                        <img src="{{ trickMedia.url }}" loading="lazy">
+                    {% else %}
+                        {{ trickMedia.embed | raw }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <button class="show-media no-hover small">
+                <i class="bi bi-collection-play"></i>
+                <span>See media</span>
+            </button>
+            <p>
+                {{ trick.description }}
+            </p>
+            <div class="info">
+                <div class="badge">
+                    <span class="quiet">Group</span>
+                    <span>{{ trick.tripGroup.name }}</span>
+                </div>
+                <div class="badge">
+                    <span class="quiet">Created at</span>
+                    <span>{{ trick.createdAt | date('d-m-Y') }}</span>
+                </div>
+                <div class="badge">
+                    <span class="quiet">Created by</span>
+                    <span>{{ trick.createdBy.username }}</span>
+                </div>
+                {% if trick.updatedAt %}
+                    <div class="badge">
+                        <span class="quiet">Updated at</span>
+                        <span>{{ trick.updatedAt | date('d-m-Y') }}</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+{% endblock %}

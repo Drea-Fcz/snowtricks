@@ -14,11 +14,6 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[UniqueEntity(
-    fields: ['name', 'slug'],
-    message: 'This name is already used.',
-    errorPath: 'slug',
-)]
 class Trick
 {
     use TimeStampTrait;
@@ -28,7 +23,7 @@ class Trick
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     #[Assert\NotBlank]
     private ?string $name = null;
 
@@ -36,7 +31,7 @@ class Trick
     #[Assert\NotBlank]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class)]
@@ -45,7 +40,12 @@ class Trick
     #[ORM\ManyToOne(inversedBy: 'tricks')]
     private ?TrickGroup $tripGroup = null;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: TrickMedia::class, orphanRemoval: true)]
+    #[ORM\OneToMany(
+        mappedBy: 'trick',
+        targetEntity: TrickMedia::class,
+        cascade: ['persist'],
+        orphanRemoval: true
+    )]
     private Collection $trickMedia;
 
     #[ORM\ManyToOne(inversedBy: 'tricks')]
@@ -94,7 +94,7 @@ class Trick
     public function setSlug(): self
     {
         $slugger = new AsciiSlugger();
-        $this->slug = $slugger->slug($this->getName());
+        $this->slug = $slugger->slug(strtolower($this->getName()));
 
         return $this;
     }

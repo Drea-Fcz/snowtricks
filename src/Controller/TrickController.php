@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Trick;
 use App\Event\EditTrickEvent;
 use App\Form\TrickFormType;
+use App\Repository\TrickRepository;
+use App\Service\TrickMediaService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
@@ -24,23 +26,26 @@ class TrickController extends AbstractController
 {
 
     public function __construct( private EventDispatcherInterface $dispatcher,
-                                 private EntityManagerInterface $_em
+                                 private EntityManagerInterface $_em,
+                                 private TrickRepository $repository,
+                                 private TrickMediaService $mediaService
     )
     {
     }
 
-    #[Route('', name: '_trick')]
+    #[Route('', name: '_trick.list')]
     public function index(): Response
     {
+
         return $this->render('trick/index.html.twig', [
-            'controller_name' => 'TrickController',
+            'tricks' => $this->repository->findAll()
         ]);
     }
 
-    #[Route('/{id}', name: 'trick_show', methods: ['GET'])]
+    #[Route('/{slug}', name: 'trick_show', methods: ['GET'])]
     public function show(Trick $trick): Response
     {
-        return $this->render('trick/index.html.twig', [
+        return $this->render('trick/show.html.twig', [
             'trick' => $trick
         ]);
     }
@@ -51,13 +56,12 @@ class TrickController extends AbstractController
      * @return Response
      */
     #[
-        Route('/edit/{id?0}', name: '_trick.edit'),
+        Route('/edit/{slug}', name: '_trick.edit'),
         isGranted('IS_AUTHENTICATED')
     ]
     public function edit(Trick $trick = null, Request $request): Response
     {
         $new = false;
-
         if (!$trick) {
             $new = true;
             $trick = new Trick();
@@ -68,10 +72,10 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-
             $message = $new ? "You added a new trick with success" : "you edited a trick whit success";
             $trick->setCreatedBy($this->getUser());
             $trick->setSlug();
+            $trick = $this->mediaService->checkAndAddMedia($trick);
 
             $this->_em->persist($trick);
             $this->_em->flush();
@@ -83,9 +87,14 @@ class TrickController extends AbstractController
                 // We need to dispatch the event
                 $this->dispatcher->dispatch($addPersonEvent, EditTrickEvent::EDIT_TRICK_EVENT);
             }
-            $this->addFlash('Success', $message);
+            $this->addFlash('success', $message);
+            if ($new) {
+                return $this->redirectToRoute('_trick.list');
+            } else {
+                return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
+            }
 
-            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
+
         } else {
             return $this->render('trick/edit.html.twig', [
                 'trick' => $trick,

@@ -1,91 +1,80 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ trick.name }}{% endblock %}
+{% block title %}List{% endblock %}
 
 {% block main %}
-    <main class="trick-detail">
-        <a href="{{ path('index') }}" class="link-back">
-            <span>&#8592; Got back to Home</span>
-        </a>
-        {% set continue = true %}
-        {% for trickMedia in trick.trickMedia %}
-            {% if trickMedia.isImage and continue %}
-                <div class="trick-image" style="background-image: url({{ trickMedia.url }})">
-                    <h1>{{ trick.name }}</h1>
-                    <div class="filter"></div>
-                    {% if app.user %}
-                        <div class="edit">
-                            <a href="{{ path('_trick.edit', {'id': trick.id}) }}">
-                                <button class="small green no-hover">
-                                    <i class="bi bi-pen"></i>
-                                </button>
-                            </a>
-                            <form method="post" action="{{ path('_trick_delete', {'id': trick.id}) }}"
-                                  onsubmit="return confirm('Do you really remove this?');"
-                            >
-                                <button class="small red no-hover">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
+    <main class="trick-list">
+        <div class="title-container">
+            <div>
+                {% for type, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="{{ type }}">
+                            <div>
+                                {{ message }}
+                            </div>
                         </div>
-                    {% endif %}
-                </div>
-                {% set continue = false %}
-            {% endif %}
-        {% endfor %}
-        {% if trick.trickMedia|length == 0 and app.user %}
-            <div class="edit">
-                <a href="{{ path('_trick.edit', {'id': trick.id}) }}">
-                    <button class="small green no-hover">
-                        <i class="bi bi-pen"></i>
-                    </button>
-                </a>
-                <form method="post" action="{{ path('_trick_delete', {'id': trick.id}) }}" onsubmit="return confirm('Do you really remove this?');">
-                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.id) }}">
-                    <button class="btn small red no-hover">
-                        <i class="bi bi-trash"></i>
-                        {{ button_label|default('Supprimer') }}
-                    </button>
-                </form>
-            </div>
-        {% endif %}
-        <div class="description">
-            <div class="trick-media-list">
-                {% for trickMedia in trick.trickMedia %}
-                    {% if trickMedia.isImage %}
-                        <img src="{{ trickMedia.url }}" loading="lazy">
-                    {% else %}
-                        {{ trickMedia.embed | raw }}
-                    {% endif %}
+                    {% endfor %}
                 {% endfor %}
             </div>
-            <button class="show-media no-hover small">
-                <i class="bi bi-collection-play"></i>
-                <span>See media</span>
-            </button>
-            <p>
-                {{ trick.description }}
-            </p>
-            <div class="info">
-                <div class="badge">
-                    <span class="quiet">Group</span>
-                    <span>{{ trick.tripGroup.name }}</span>
-                </div>
-                <div class="badge">
-                    <span class="quiet">Created at</span>
-                    <span>{{ trick.createdAt | date('d-m-Y') }}</span>
-                </div>
-                <div class="badge">
-                    <span class="quiet">Created by</span>
-                    <span>{{ trick.createdBy.username }}</span>
-                </div>
-                {% if trick.updatedAt %}
-                    <div class="badge">
-                        <span class="quiet">Updated at</span>
-                        <span>{{ trick.updatedAt | date('d-m-Y') }}</span>
-                    </div>
-                {% endif %}
-            </div>
+            {% if app.user %}
+            <a href="{{ path('_trick.edit', {'slug': 'new' }) }}">
+                <button class="green small">
+                    <i class="bi bi-plus"></i>
+                    Add new
+                </button>
+            </a>
+            {% endif %}
         </div>
+        {% if tricks|length > 0 %}
+            <section class="container mt-4">
+                <div class="row" id="groups">
+                    {% for trick in tricks %}
+                        <div class="trick-container col-md-3">
+                            <div class="trick-item big-height">
+                                {% set continue = true %}
+                                {% for trickMedia in trick.trickMedia %}
+                                    {% if trickMedia.isImage and continue %}
+                                        <div class="top" style="background-image: url({{ trickMedia.url }})"></div>
+                                        {% set continue = false %}
+                                    {% endif %}
+                                {% endfor %}
+                                <div class="bottom">
+                                    <h2>{{ trick.name }}</h2>
+                                    {% if app.user %}
+                                        <div class="edit-block">
+                                            <a href="{{ path('_trick.edit', {'slug': trick.slug}) }}">
+                                                <button class="small green me-1">
+                                                    <i class="bi bi-pen"></i>
+                                                </button>
+                                            </a>
+                                            <form method="post" action="{{ path('_trick_delete', {'id': trick.id}) }}"
+                                                  onsubmit="return confirm('Do you really remove this?');"
+                                            >
+                                                <button class="small red me-1">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                            <a href="{{ path('trick_show', {'slug': trick.slug}) }}">
+                                                <button class="small">
+                                                    <i class="bi bi-arrow-right"></i>
+                                                </button>
+                                            </a>
+                                        </div>
+                                        {% else %}
+                                            <a href="{{ path('trick_show', {'id': trick.id}) }}">
+                                                <button>
+                                                    Details
+                                                    <i class="bi bi-arrow-right ms-2"></i>
+                                                </button>
+                                            </a>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endif %}
     </main>
 {% endblock %}
