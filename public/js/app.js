@@ -21,9 +21,9 @@ $(function() {
             '<span class="card-title">Add media<i class="bi bi-x-circle remove-media"></i></span>' +
             '<div class="form-btn"><span>Url</span>' +
             '<div class="btn-toggle"><div class="round">' +
-            '<input type="checkbox" name="trick[trickMedia]['+ index +'][isImage]" checked></div></div>' +
+            '<input type="checkbox" name="trick_form[trickMedia]['+ index +'][isImage]" checked></div></div>' +
             '</div><div class="textarea is-active"><label for="embed">Video</label>' +
-            '<textarea id="embed" name="trick[trickMedia]['+ index +'][embed]" placeholder=\'Ex: <iframe width="560" height="315" src="https://www.youtube.com/embed/monyw0mnLZg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>\'></textarea></div><div class="url"><label for="url">URL de l\'image</label><input type="url" id="url" class="white" name="trick[trickMedia]['+ index +'][url]" placeholder="Ex: https://img.redbull.com/images"></div></div>');
+            '<textarea id="embed" name="trick_form[trickMedia]['+ index +'][embed]" placeholder=\'Ex: <iframe width="560" height="315" src="https://www.youtube.com/embed/monyw0mnLZg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>\'></textarea></div><div class="url"><label for="url">URL de l\'image</label><input type="url" id="url" class="white" name="trick_form[trickMedia]['+ index +'][url]" placeholder="Ex: https://img.redbull.com/images"></div></div>');
     });
 
     $('main').on('click', '.remove-media', function() {

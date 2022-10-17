@@ -112,6 +112,56 @@ main {
           }
         }
       }
+
+      .add-comment {
+        padding: 25px 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        border-top: 1px solid $broken-white;
+        border-bottom: 1px solid $broken-white;
+        margin: 25px 20px;
+
+        span {
+          color: $grey-light;
+          margin-bottom: 10px;
+          font-family: 'Roboto', sans-serif;
+          font-size: 14px;
+          font-weight: 400;
+          text-align: center;
+        }
+      }
+
+      .comments {
+        margin: 10px;
+
+        .card {
+          margin-bottom: 10px;
+
+          .card-title {
+            flex-direction: row;
+
+            img {
+              height: 40px;
+              max-width: 40px;
+              border-radius: 100%;
+              margin-right: 10px;
+            }
+          }
+
+          .block-action {
+            display: flex;
+            align-items: center;
+
+            a {
+              &:first-child {
+                margin-right: 10px;
+              }
+            }
+          }
+        }
+      }
     }
   }
 

@@ -31,22 +31,25 @@ class TrickFormType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Name of the Tick *',
                 'help' => 'The figure name must be unique',
+                'required' => true,
                 'attr' => array(
                     'placeholder' => 'Ex: Nose Press'
                 )
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description *',
+                'required' => true,
                 'attr' => array(
                     'placeholder' => 'Ex: A tail press is riding along a flat surface and switching your weight to your back leg while lifting your front leg slightly, which will then lift the front of the board. Whilst a nose press is the opposite, where the weight is shifted into the front.... '
                 )
             ])
             ->add('tripGroup', ChoiceType::class, [
                 'label' => 'Trick Group *',
+                'required' => true,
                 'choices' => $trickChoices
             ])
             ->add('trickMedia', CollectionType::class, [
-                'label' => false,
+                'entry_options' => ['label' => false],
                 'entry_type' => TrickMediaFormType::class,
                 'allow_add' => true,
                 'allow_delete' => true,

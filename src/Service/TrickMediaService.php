@@ -15,9 +15,10 @@ class TrickMediaService
      * @param Trick $trick
      * @return bool|Trick
      */
-    public function checkAndAddMedia(Trick $trick): bool|Trick
+    public function checkAndAddMedia(Trick $trick, $medias): bool|Trick
     {
-        foreach ($trick->getTrickMedia() as $media) {
+        foreach ($medias['trickMedia'] as $media) {
+            dd($media);
             $isImg = $this->checkUrlType('https://live.staticflickr.com/7004/6769020405_e6ddfb7bf5_b.jpg');
             $media->setIsImage($isImg);
             $this->_em->persist($media);

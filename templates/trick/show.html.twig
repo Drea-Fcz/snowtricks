@@ -4,7 +4,7 @@
 
 {% block main %}
     <main class="trick-detail">
-                {% for type, messages in app.flashes %}
+        {% for type, messages in app.flashes %}
             {% for message in messages %}
                 <div class="{{ type }}">
                     <div>
@@ -97,6 +97,81 @@
                         <span class="quiet">Updated at</span>
                         <span>{{ trick.updatedAt | date('d-m-Y') }}</span>
                     </div>
+                {% endif %}
+            </div>
+            <div class="add-comment">
+                {% if app.user %}
+                    <a href="#">
+                        <button class="small broken-white">
+                            <i class="bi bi-chat-text"></i>
+                            Add new comment
+                        </button>
+                    </a>
+                {% else %}
+                    <span>
+                        <i class="bi bi-info-circle"></i>
+                        You need to be connected if you want to post a comment
+                    </span>
+                    <a href="{{ path('app_login') }}">
+                        <button class="green">
+                            <i class="bi bi-person-check"></i>
+                            Login
+                        </button>
+                    </a>
+                {% endif %}
+            </div>
+            <div class="comments ">
+                {% if trick.comments|length == 0 %}
+                    <span>Il n'y a aucun commentaire</span>
+                {% else %}
+                    {% set render = true %}
+                    {% set showLoadMoreButton = true %}
+
+                    {% for i, comment in trick.comments %}
+                        {% if numberComments is defined and numberComments == i %}
+                            {% set render = false %}
+                        {% elseif numberComments is defined and numberComments >= trick.comments|length %}
+                            {% set showLoadMoreButton = false %}
+                        {% elseif numberComments is not defined and i == 5 %}
+                            {% set render = false %}
+                        {% endif %}
+
+                        {% if render %}
+                            <div class="card grey">
+                                <div class="card-title">
+                                    <img src="https://picsum.photos/200" alt="{{ comment.user.username }}">
+                                    <div>
+                                        <span class="medium">{{ comment.user.username }}</span>
+                                        <em class="small">{{ comment.createdAt | date('d/m/Y à H:i:s') }}</em>
+                                        <br>
+                                        <span>{{ comment.content }}</span>
+                                    </div>
+                                </div>
+
+                                {% if app.user and comment.user.username == app.user.username %}
+                                    <div class="block-action">
+                                        {# do somthing #}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+                {% set newNumberComments = 0 %}
+                {% if numberComments is defined %}
+                    {% set newNumberComments = numberComments + 10 %}
+                {% else %}
+                    {% set newNumberComments = 10 %}
+                {% endif %}
+
+                {% if showLoadMoreButton is defined and showLoadMoreButton and trick.comments|length > 10 %}
+                    <a href="{{ path('trick_show_comments', { slug: trick.slug, numberComments: newNumberComments }) }}">
+                        <button class="small blue" id="load-more">
+                            <i class="bi bi-plus"></i>
+                            Voir plus de commentaires
+                        </button>
+                    </a>
                 {% endif %}
             </div>
         </div>

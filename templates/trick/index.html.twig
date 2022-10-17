@@ -4,17 +4,8 @@
 
 {% block main %}
     <main class="trick-list">
-        <div class="title-container">
+        <div class="title-container mb-3">
             <div>
-                {% for type, messages in app.flashes %}
-                    {% for message in messages %}
-                        <div class="{{ type }}">
-                            <div>
-                                {{ message }}
-                            </div>
-                        </div>
-                    {% endfor %}
-                {% endfor %}
             </div>
             {% if app.user %}
             <a href="{{ path('_trick.edit', {'slug': 'new' }) }}">
@@ -25,8 +16,19 @@
             </a>
             {% endif %}
         </div>
+        <div>
+            {% for type, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ type }} mb-2">
+                        <div>
+                            {{ message }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
         {% if tricks|length > 0 %}
-            <section class="container mt-4">
+            <section class="container">
                 <div class="row" id="groups">
                     {% for trick in tricks %}
                         <div class="trick-container col-md-3">
@@ -61,14 +63,13 @@
                                             </a>
                                         </div>
                                         {% else %}
-                                            <a href="{{ path('trick_show', {'id': trick.id}) }}">
+                                            <a href="{{ path('trick_show', {'slug': trick.slug}) }}">
                                                 <button>
                                                     Details
                                                     <i class="bi bi-arrow-right ms-2"></i>
                                                 </button>
                                             </a>
                                     {% endif %}
-
                                 </div>
                             </div>
                         </div>

@@ -9,7 +9,6 @@ button {
     min-height: 35px;
     border: none;
     cursor: pointer;
-    //text-transform: uppercase;
     letter-spacing: .9px;
     font-size: 1rem;
     font-weight: 400;
@@ -24,7 +23,7 @@ button {
         background-color: $pastel;
 
         &:hover {
-            box-shadow: 10px 10px 6px $blue;
+            box-shadow: 6px 6px 8px $blue;
         }
     }
 
@@ -37,7 +36,7 @@ button {
         }
 
         &:hover {
-            box-shadow: 10px 10px 6px $blue;
+            box-shadow: 6px 6px 8px $blue;
         }
     }
 

@@ -91,7 +91,7 @@ class TrickController extends AbstractController
             if ($new) {
                 return $this->redirectToRoute('_trick.list');
             } else {
-                return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
+                return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
             }
 
 
@@ -121,7 +121,7 @@ class TrickController extends AbstractController
             $this->addFlash('error', "This trick doesn't  exist");
         }
 
-        return  $this->redirectToRoute('index');
+        return  $this->redirectToRoute('_trick.list');
     }
 
 
