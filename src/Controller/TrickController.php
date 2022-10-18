@@ -50,6 +50,7 @@ class TrickController extends AbstractController
         ]);
     }
 
+
     /**
      * @param Trick|null $trick
      * @param Request $request

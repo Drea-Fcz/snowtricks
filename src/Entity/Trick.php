@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -35,6 +36,7 @@ class Trick
     private ?string $slug = null;
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class)]
+    #[OrderBy(["createdAt" => "DESC"])]
     private Collection $comments;
 
     #[ORM\ManyToOne(inversedBy: 'tricks')]
