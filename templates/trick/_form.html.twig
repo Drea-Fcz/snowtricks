@@ -17,61 +17,63 @@
     <div>
         {{ form_label(form.tripGroup) }}
         {{ form_widget(form.tripGroup) }}
-    </div>
-</div>
 
-{% if trick.name and trick.id %}
-<label class="mt-2">Image</label>
-{% for i, media in form.trickMedia %}
-<div>
-    <div class="form-bnt">
-        {% if  media.vars.value.isImage %}
-            <div class="input-group url {{ media.vars.value.isImage ? 'is-active' : '' }}">
-
-                <div class="d-flex flex-row">
-                    <input type="url" id="url"
-                           class="form-group w-100 grey"
-                           name="trick[trickMedia][{{ i }}][url]"
-                           placeholder="Ex: https://img.redbull.com/images"
-                           value="{{ media.vars.value.url }}">
-                    {#
-                    https://www.shutterstock.com/image-illustration/no-picture-available-placeholder-thumbnail-icon-2179364083'
-                    #}
-                    <div class="input-group-append">
-                       <span class="input-group-text border-0 bg-transparent">
+        {% if trick.name and trick.id %}
+        <label class="mt-2">Image</label>
+        {% for i, media in form.children.trickMedia %}
+            <div class="card">
+                <span class="card-title d-flex justify-content-end">
                              <a href="#" onclick="return confirm('do you really want to remove this ?');">
                              <i class="bi bi-x-circle"></i>
                     </a>
-                       </span>
+                </span>
+                <div class="form-bnt">
+                    <span>Is an image?</span>
+                    <div class="btn-toggle">
+                        <div class="round {{ media.vars.value.isImage ? 'active' : '' }}">
+                            {% if media.vars.value.isImage %}
+                                <input type="checkbox" name="trick[trickMedia][{{ i }}][isImage]" checked>
+                            {% else %}
+                                <input type="checkbox" name="trick[trickMedia][{{ i }}][isImage]">
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endif %}
-        {% if  media.vars.value.isImage == false %}
-            <div class="textarea {{ media.vars.value.isImage ? '' : 'is-active' }}">
-                <label for="embed">Video</label>
-                <textarea id="embed" name="trick[trickMedia][{{ i }}][embed]"
-                          placeholder='Ex: <iframe width="560" height="315" src="https://www.youtube.com/embed/monyw0mnLZg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'>
-                        {{ media.vars.value.embed }}
-                </textarea>
-            </div>
-        {% endif %}
-    </div>
-    {% endfor %}
-    {% endif %}
-    {% for type, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="{{ type }}">
-                <div>
-                    {{ message }}
+                <div class="textarea {{ media.vars.value.isImage ? '' : 'is-active' }}">
+                    <label for="embed">Video</label>
+                    <textarea id="embed" class="white" name="trick[trickMedia][{{ i }}][embed]" placeholder='Ex: <iframe width="560" height="315" src="https://www.youtube.com/embed/monyw0mnLZg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'>
+                        {{media.vars.value.embed}}
+                    </textarea>
+                </div>
+                <div class="url {{ media.vars.value.isImage ? 'is-active' : '' }}">
+                    <label for="url">Image Url</label>
+                    <input type="url" id="url" class="white" name="trick[trickMedia][{{ i }}][url]" placeholder="Ex: https://img.redbull.com/images" value="{{media.vars.value.url}}">
                 </div>
             </div>
-        {% endfor %}
-    {% endfor %}
-    <button class="add-media small">
+            {% endfor %}
+            {% endif %}
+            {% for type, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="{{ type }}">
+                        <div>
+                            {{ message }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+</div>
+<div>
+    {{ form_widget(form._token) }}
+{#    <div>
+        {{ form_label(form.trickMedia) }}
+        {{ form_widget(form.trickMedia) }}
+    </div>#}
+    <button type="button" class="add-media small" id="add-media">
         <i class="bi bi-plus"></i>
         Add media
     </button>
+</div>
+
     <button class="btn save">
         <i class="bi bi-plus"></i>
         {{ button_label|default('Add a trick') }}
@@ -80,5 +82,5 @@
     form end par default affiche en dessous la fin du formulaire
         render_rest:
     #}
-    {{ form_widget(form._token) }}
+
     {{ form_end(form, {'render_rest': false}) }}

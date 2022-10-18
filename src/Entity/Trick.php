@@ -46,6 +46,7 @@ class Trick
         cascade: ['persist'],
         orphanRemoval: true
     )]
+    #[Assert\Count(1)]
     private Collection $trickMedia;
 
     #[ORM\ManyToOne(inversedBy: 'tricks')]

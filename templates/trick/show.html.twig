@@ -47,7 +47,7 @@
                 <h1>{{ trick.name }}</h1>
                 <div class="filter"></div>
                 <div class="edit">
-                    <a href="{{ path('_trick.edit') }}">
+                    <a href="{{ path('_trick.edit', {'slug': trick.slug}) }}">
                         <button class="small green no-hover">
                             <i class="bi bi-plus"></i>
                         </button>
