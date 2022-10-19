@@ -44,6 +44,11 @@ button {
         background-color: $red;
     }
 
+    &.transparent {
+        background-color: transparent;
+        color: black;
+    }
+
     &.small {
         font-size: 0.8rem;
         padding: 1% 15px;

@@ -19,7 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
 ]
 class CommentController extends AbstractController
 {
-    public function __construct(private TrickRepository $repositoryTrick)
+    public function __construct(private TrickRepository $repositoryTrick,
+                                private EntityManagerInterface $_em)
     {
     }
 
@@ -47,7 +48,31 @@ class CommentController extends AbstractController
 
         return $this->renderForm('comment/edit.html.twig', [
             'comment' => $comment,
-            'form' => $form
+            'form' => $form,
+            'slug' => $slug
         ]);
+    }
+
+    #[
+        Route('/{id}', name: '_comment_delete', methods: ['POST']),
+        isGranted('IS_AUTHENTICATED')
+    ]
+
+    public function delete(Comment $comment, Request $request): Response
+    {
+        $slug = $request->query->get('slug');
+
+        if ($comment->getId() !== null) {
+            $this->_em->remove($comment);
+            $this->_em->flush();
+
+            $this->addFlash('success', "The comment was deleted");
+
+        } else {
+
+            $this->addFlash('error', "This comment doesn't  exist");
+        }
+
+        return $this->redirectToRoute('trick_show', ['slug' => $slug], Response::HTTP_SEE_OTHER);
     }
 }

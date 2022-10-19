@@ -129,25 +129,41 @@
 
                     {% for i, comment in trick.comments %}
 
-                            {% if nbComments is defined and nbComments == i %}
-                                {% set display = false %}
-                            {% elseif nbComments is defined and nbComments >= trick.comments|length %}
-                                {% set buttonIsDiplay = false %}
-                            {%  elseif nbComments is not defined and i == 10 %}
-                                {% set display = false %}
-                            {% endif %}
+                        {% if nbComments is defined and nbComments == i %}
+                            {% set display = false %}
+                        {% elseif nbComments is defined and nbComments >= trick.comments|length %}
+                            {% set buttonIsDiplay = false %}
+                        {% elseif nbComments is not defined and i == 10 %}
+                            {% set display = false %}
+                        {% endif %}
 
                         {% if display %}
-                            <div class="card grey">
+                            <div class="card">
                                 <div class="card-title">
-                                    <div class="d-flex row-flew">
-                                        <img src="https://picsum.photos/200" class="mt-2"
-                                             alt="{{ comment.user.username }}">
-                                        <div>
-                                            <span class="small">{{ comment.user.username }}</span>
-                                            <em class="small">{{ comment.createdAt | date('d/m/Y  H:i') }}</em>
-                                            <br>
-                                            <span>{{ comment.content }}</span>
+                                    <div class="row">
+                                        <div class="d-flex justify-content-between">
+                                            <img src="https://picsum.photos/200" class="mt-2 col-2"
+                                                 alt="{{ comment.user.username }}">
+                                            <div class="col-10">
+                                            <span>
+                                                <b class="small">{{ comment.user.username }}
+                                                    <em class="small">{{ comment.createdAt | date('d/m/Y  H:i') }}</em>
+                                                </b>
+                                            </span>
+
+                                                <br>
+                                                <span>{{ comment.content }}</span>
+                                            </div>
+                                            <div>
+                                                {% if app.user and comment.user.username == app.user.username %}
+                                                    <form method="post" action="{{ path('_comment_delete', {'id': comment.id, 'slug': trick.slug}) }}"
+                                                          onsubmit="return confirm('Do you really remove this comment?');">
+                                                        <button class="small transparent no-hover">
+                                                            <i class="bi bi-file-minus"></i>
+                                                        </button>
+                                                    </form>
+                                                {% endif %}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -164,11 +180,12 @@
 
                     {% if buttonIsDiplay is defined and buttonIsDiplay and trick.comments|length > 10 %}
                         <a href="{{ path('trick_show_comments', { slug: trick.slug, nbComments: moreComments }) }}">
-                            <button class="small blue">
-                                <i class="bi bi-arrow-bar-down"></i>
+                            <button class="small blue no-hover">
+                                <i class="bi bi-arrows-expand"></i>
                                 See More
                             </button>
                         </a>
+
                     {% endif %}
                 {% endif %}
             </div>
