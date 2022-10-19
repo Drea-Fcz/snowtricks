@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add comment{% endblock %}
+
+{% block main %}
+    <main class="mb-2">
+        <a href="#" class="link-back mb-2">
+            <span>&#8592; Back</span>
+        </a>
+        <div class="card white">
+            <h1>Add comment</h1>
+            {{ include('comment/_form.html.twig') }}
+        </div>
+    </main>
+{% endblock %}

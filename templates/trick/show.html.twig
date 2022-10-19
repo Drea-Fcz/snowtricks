@@ -101,7 +101,7 @@
             </div>
             <div class="add-comment">
                 {% if app.user %}
-                    <a href="#">
+                    <a href="{{ path('_comment_edit', { 'slug': trick.slug }) }}">
                         <button class="small broken-white">
                             <i class="bi bi-chat-text"></i>
                             Add new comment
@@ -164,7 +164,7 @@
 
                     {% if buttonIsDiplay is defined and buttonIsDiplay and trick.comments|length > 10 %}
                         <a href="{{ path('trick_show_comments', { slug: trick.slug, nbComments: moreComments }) }}">
-                            <button class="small blue" id="loadMoreComment">
+                            <button class="small blue">
                                 <i class="bi bi-arrow-bar-down"></i>
                                 See More
                             </button>

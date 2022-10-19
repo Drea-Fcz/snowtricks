@@ -1,0 +1,9 @@
+{{ form_start(form) }}
+        {{ form_errors(form.content) }}
+        {{ form_label(form.content) }}
+        {{ form_widget(form.content) }}
+<button class="btn">
+    <i class="bi bi-chat-text"></i>
+    {{ button_label|default('Add') }}
+</button>
+{{ form_end(form) }}
