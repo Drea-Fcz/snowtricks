@@ -42,7 +42,19 @@ class TrickController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', name: 'trick_show', methods: ['GET'])]
+
+
+    #[Route('/detail/{slug}/{nbComments}', name: 'trick_show_comments', methods: ['GET'])]
+    public function showWithComments(Trick $trick, int $nbComments): Response
+    {
+
+        return $this->render('trick/show.html.twig', [
+            'trick' => $trick,
+            'nbComments' => $nbComments,
+        ]);
+    }
+
+    #[Route('/detail/{slug}', name: 'trick_show', methods: ['GET'])]
     public function show(Trick $trick): Response
     {
         return $this->render('trick/show.html.twig', [

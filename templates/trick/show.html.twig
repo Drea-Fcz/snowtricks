@@ -3,144 +3,175 @@
 {% block title %}{{ trick.name }}{% endblock %}
 
 {% block main %}
-<main class="trick-detail">
-    {% for type, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="{{ type }}">
-                <div>
-                    {{ message }}
+    <main class="trick-detail">
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="{{ type }}">
+                    <div>
+                        {{ message }}
+                    </div>
                 </div>
-            </div>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
-    <a href="{{ path('index') }}" class="link-back">
-        <span>&#8592; Got back to Home</span>
-    </a>
-    {% set continue = true %}
-    {% for trickMedia in trick.trickMedia %}
-        {% if trickMedia.isImage and continue %}
-            <div class="trick-image" style="background-image: url({{ trickMedia.url }})">
+        <a href="{{ path('index') }}" class="link-back">
+            <span>&#8592; Got back to Home</span>
+        </a>
+        {% set continue = true %}
+        {% for trickMedia in trick.trickMedia %}
+            {% if trickMedia.isImage and continue %}
+                <div class="trick-image" style="background-image: url({{ trickMedia.url }})">
+                    <h1>{{ trick.name }}</h1>
+                    <div class="filter"></div>
+                    {% if app.user %}
+                        <div class="edit">
+                            <a href="{{ path('_trick.edit', {'slug': trick.slug}) }}">
+                                <button class="small green no-hover">
+                                    <i class="bi bi-pen"></i>
+                                </button>
+                            </a>
+                            <form method="post" action="{{ path('_trick_delete', {'id': trick.id}) }}"
+                                  onsubmit="return confirm('Do you really remove this?');"
+                            >
+                                <button class="small red no-hover">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+                {% set continue = false %}
+            {% endif %}
+        {% endfor %}
+        {% if trick.trickMedia|length == 0 and app.user %}
+            <div class="trick-image">
                 <h1>{{ trick.name }}</h1>
                 <div class="filter"></div>
-                {% if app.user %}
-                    <div class="edit">
-                        <a href="{{ path('_trick.edit', {'slug': trick.slug}) }}">
-                            <button class="small green no-hover">
-                                <i class="bi bi-pen"></i>
-                            </button>
-                        </a>
-                        <form method="post" action="{{ path('_trick_delete', {'id': trick.id}) }}"
-                              onsubmit="return confirm('Do you really remove this?');"
-                        >
-                            <button class="small red no-hover">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </form>
+                <div class="edit">
+                    <a href="{{ path('_trick.edit', {'slug': trick.slug}) }}">
+                        <button class="small green no-hover">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </a>
+                    <form method="post" action="{{ path('_trick_delete', {'id': trick.id}) }}"
+                          onsubmit="return confirm('Do you really remove this?');"
+                    >
+                        <button class="small red no-hover">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+        <div class="description">
+            <div class="trick-media-list">
+                {% for trickMedia in trick.trickMedia %}
+                    {% if trickMedia.isImage %}
+                        <img src="{{ trickMedia.url }}" loading="lazy">
+                    {% else %}
+                        {{ trickMedia.embed | raw }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <button class="show-media no-hover small">
+                <i class="bi bi-collection-play"></i>
+                <span>See media</span>
+            </button>
+            <p>
+                {{ trick.description }}
+            </p>
+            <div class="info">
+                <div class="badge">
+                    <span class="quiet">Group</span>
+                    <span>{{ trick.tripGroup.name }}</span>
+                </div>
+                <div class="badge">
+                    <span class="quiet">Created at</span>
+                    <span>{{ trick.createdAt | date('d-m-Y') }}</span>
+                </div>
+                <div class="badge">
+                    <span class="quiet">Created by</span>
+                    <span>{{ trick.createdBy.username }}</span>
+                </div>
+                {% if trick.updatedAt %}
+                    <div class="badge">
+                        <span class="quiet">Updated at</span>
+                        <span>{{ trick.updatedAt | date('d-m-Y') }}</span>
                     </div>
                 {% endif %}
             </div>
-            {% set continue = false %}
-        {% endif %}
-    {% endfor %}
-    {% if trick.trickMedia|length == 0 and app.user %}
-        <div class="trick-image">
-            <h1>{{ trick.name }}</h1>
-            <div class="filter"></div>
-            <div class="edit">
-                <a href="{{ path('_trick.edit', {'slug': trick.slug}) }}">
-                    <button class="small green no-hover">
-                        <i class="bi bi-plus"></i>
-                    </button>
-                </a>
-                <form method="post" action="{{ path('_trick_delete', {'id': trick.id}) }}"
-                      onsubmit="return confirm('Do you really remove this?');"
-                >
-                    <button class="small red no-hover">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </form>
-            </div>
-        </div>
-    {% endif %}
-    <div class="description">
-        <div class="trick-media-list">
-            {% for trickMedia in trick.trickMedia %}
-                {% if trickMedia.isImage %}
-                    <img src="{{ trickMedia.url }}" loading="lazy">
+            <div class="add-comment">
+                {% if app.user %}
+                    <a href="#">
+                        <button class="small broken-white">
+                            <i class="bi bi-chat-text"></i>
+                            Add new comment
+                        </button>
+                    </a>
                 {% else %}
-                    {{ trickMedia.embed | raw }}
-                {% endif %}
-            {% endfor %}
-        </div>
-        <button class="show-media no-hover small">
-            <i class="bi bi-collection-play"></i>
-            <span>See media</span>
-        </button>
-        <p>
-            {{ trick.description }}
-        </p>
-        <div class="info">
-            <div class="badge">
-                <span class="quiet">Group</span>
-                <span>{{ trick.tripGroup.name }}</span>
-            </div>
-            <div class="badge">
-                <span class="quiet">Created at</span>
-                <span>{{ trick.createdAt | date('d-m-Y') }}</span>
-            </div>
-            <div class="badge">
-                <span class="quiet">Created by</span>
-                <span>{{ trick.createdBy.username }}</span>
-            </div>
-            {% if trick.updatedAt %}
-                <div class="badge">
-                    <span class="quiet">Updated at</span>
-                    <span>{{ trick.updatedAt | date('d-m-Y') }}</span>
-                </div>
-            {% endif %}
-        </div>
-        <div class="add-comment">
-            {% if app.user %}
-                <a href="#">
-                    <button class="small broken-white">
-                        <i class="bi bi-chat-text"></i>
-                        Add new comment
-                    </button>
-                </a>
-            {% else %}
-                <span>
+                    <span>
                         <i class="bi bi-info-circle"></i>
                         You need to be connected if you want to post a comment
                     </span>
-                <a href="{{ path('app_login') }}">
-                    <button class="green">
-                        <i class="bi bi-person-check"></i>
-                        Login
-                    </button>
-                </a>
-            {% endif %}
-        </div>
-        <div class="comments ">
-            {% for i, comment in trick.comments %}
-                {% if trick.comments|length == 0 %}
-                <span>There is no comments </span>
-                {% else %}
-                <div class="card grey">
-                    <div class="card-title">
-                        <div class="d-flex row-flew">
-                            <img src="https://picsum.photos/200" class="mt-2" alt="{{ comment.user.username }}">
-                            <div>
-                                <span class="small">{{ comment.user.username }}</span>
-                                <em class="small">{{ comment.createdAt | date('d/m/Y  H:i') }}</em>
-                                <br>
-                                <span>{{ comment.content }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <a href="{{ path('app_login') }}">
+                        <button class="green">
+                            <i class="bi bi-person-check"></i>
+                            Login
+                        </button>
+                    </a>
                 {% endif %}
-            {% endfor %}
+            </div>
+            <div class="comments ">
+                {% if trick.comments|length == 0 %}
+                    <span>There is no comments </span>
+                {% else %}
+                    {% set display = true %}
+                    {% set buttonIsDiplay = true %}
+
+                    {% for i, comment in trick.comments %}
+
+                            {% if nbComments is defined and nbComments == i %}
+                                {% set display = false %}
+                            {% elseif nbComments is defined and nbComments >= trick.comments|length %}
+                                {% set buttonIsDiplay = false %}
+                            {%  elseif nbComments is not defined and i == 10 %}
+                                {% set display = false %}
+                            {% endif %}
+
+                        {% if display %}
+                            <div class="card grey">
+                                <div class="card-title">
+                                    <div class="d-flex row-flew">
+                                        <img src="https://picsum.photos/200" class="mt-2"
+                                             alt="{{ comment.user.username }}">
+                                        <div>
+                                            <span class="small">{{ comment.user.username }}</span>
+                                            <em class="small">{{ comment.createdAt | date('d/m/Y  H:i') }}</em>
+                                            <br>
+                                            <span>{{ comment.content }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% set moreComments = 0 %}
+                    {% if nbComments is defined %}
+                        {% set moreComments = nbComments + 10 %}
+                    {% else %}
+                        {% set moreComments = 10 %}
+                    {% endif %}
+
+                    {% if buttonIsDiplay is defined and buttonIsDiplay and trick.comments|length > 10 %}
+                        <a href="{{ path('trick_show_comments', { slug: trick.slug, nbComments: moreComments }) }}">
+                            <button class="small blue" id="loadMoreComment">
+                                <i class="bi bi-arrow-bar-down"></i>
+                                See More
+                            </button>
+                        </a>
+                    {% endif %}
+                {% endif %}
+            </div>
         </div>
-    </div>
-</main>
+    </main>
 {% endblock %}

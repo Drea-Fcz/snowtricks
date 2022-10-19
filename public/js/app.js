@@ -16,7 +16,6 @@ $(function () {
     $('#add-media').click(function (e) {
         e.preventDefault();
         let index = $( '#collection').length;
-        console.log(index);
         $('#add-media').before('' +
             '<div class="card" id="collection">' +
             '<span class="card-title d-flex justify-content-end m-0"><i class="bi bi-x-circle remove-media"></i></span>' +
