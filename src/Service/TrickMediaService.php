@@ -31,7 +31,6 @@ class TrickMediaService
      */
     public function checkUrlType(string $url): bool
     {
-        // I'm a comment And I'm useless
         $isImg = false;
         //$url = 'https://live.staticflickr.com/7004/6769020405_e6ddfb7bf5_b.jpg';
         $url_headers = get_headers($url, 1);
