@@ -15,11 +15,11 @@ class MailerService
     /**
      * @throws TransportExceptionInterface
      */
-    public function sendEmail(string $to, string $object, string $template): void
+    public function sendEmail(string $sendTo, string $object, string $template): void
     {
         $email = (new Email())
             ->from('fcz.audrey@gmail.com')
-            ->to($to)
+            ->to($sendTo)
             ->subject($object)
             ->html($template);
 
